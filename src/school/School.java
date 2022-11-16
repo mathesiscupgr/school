@@ -8,10 +8,10 @@ public class School {
     public static void main(String[] args) {
         Student ioannis = new Student("Γιάννης", "Αντεκοτούμπο", 16, "Α2");
         System.out.println("AM: " + ioannis.getAm());
-        System.out.println("Τάξη: " + ioannis.getClassroom());
+        System.out.println("Τάξη: " + ioannis.getClassRoom());
         
-        ioannis.setClassroom("Β1");
-        System.out.println("Τάξη: " + ioannis.getClassroom());
+        ioannis.setClassRoom("Β1");
+        System.out.println("Τάξη: " + ioannis.getClassRoom());
         
         System.out.println(ioannis);
     }
