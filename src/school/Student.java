@@ -3,32 +3,27 @@ package school;
 public class Student {
 
     private static final int MAX_SIZE = 20; // max name size
-    private static final int CLASSROOM_NAME_LENGTH = 2; // max classroom name size
     private static final String NONE = "<Κενό>"; // κενό όνομα
-    private static final String NO_CLASSROOM = "--"; // κενή αίθουσα
 
     private static int amCounter = 0;
     private final int am;
-    private String fistname = NONE; // 1-20
-    private String lastname = NONE; // 1-20
+    private String fistName = NONE; // 1-20
+    private String lastName = NONE; // 1-20
     private int age = -1; // 15-18
-    private String classroom = NO_CLASSROOM; // XY, π.χ. Χ={Α, Β, Γ}, Υ={1, ..., 9}
+    private ClassRoom classRoom; 
 
-    public Student(String firstname, String lastname, int age, String classroom) {
+    public Student(String firstName, String lastName, int age) {
         this.am = ++amCounter;
-        if (isNameValid(firstname)) {
-            this.fistname = firstname;
+        if (isNameValid(firstName)) {
+            this.fistName = firstName;
         }
-        if (isNameValid(lastname)) {
-            this.lastname = lastname;
+        if (isNameValid(lastName)) {
+            this.lastName = lastName;
         }
         if (isAgeValid(age)) {
             this.age = age;
         }
-        if (isClassRoomValid(classroom)) {
-            this.classroom = classroom;
-        }
-    }
+    }    
 
     public int getAm() {
         return am;
@@ -44,33 +39,33 @@ public class Student {
         }
     }
 
-    public String getFistname() {
-        return fistname;
+    public String getFistName() {
+        return fistName;
     }
 
-    public void setFistname(String firstname) {
-        this.fistname = isNameValid(firstname) ? firstname.trim() : NONE;
+    public void setFistName(String firstName) {
+        this.fistName = isNameValid(firstName) ? firstName.trim() : NONE;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = isNameValid(lastname) ? lastname.trim() : NONE;
+    public void setLastName(String lastName) {
+        this.lastName = isNameValid(lastName) ? lastName.trim() : NONE;
     }
 
-    public String getClassroom() {
-        return classroom;
+    public ClassRoom getClassRoom() {
+        return classRoom;
     }
 
-    public void setClassroom(String classroom) {
-        this.classroom = isClassRoomValid(classroom) ? classroom : NO_CLASSROOM;
+    public void setClassRoom(ClassRoom classRoom) {
+        this.classRoom = classRoom;
     }
 
     @Override
     public String toString() {
-        return "Student{" + "am=" + am + ", fistname=" + fistname + ", lastname=" + lastname + ", age=" + age + ", classroom=" + classroom + '}';
+        return "Student{" + "am=" + am + ", fistName=" + fistName + ", lastName=" + lastName + ", age=" + age + ", classRoom=" + classRoom + '}';
     }
 
     // μέθοδοι εγκυρότητας
@@ -81,12 +76,4 @@ public class Student {
     private boolean isNameValid(String name) {
         return name != null && !name.isBlank() && name.length() <= MAX_SIZE;
     }
-
-    private boolean isClassRoomValid(String classRoom) {
-        return classRoom != null && !classRoom.isBlank()
-                && classRoom.length() == CLASSROOM_NAME_LENGTH
-                && (classRoom.startsWith("Α") || classRoom.startsWith("Β") || classRoom.startsWith("Γ"))
-                && classRoom.charAt(1) >= '1' && classRoom.charAt(1) <= '9';
-    }
-
 }
