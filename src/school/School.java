@@ -21,12 +21,12 @@ public class School {
         Student ioannis = new Student("Γιάννης", "Αντεκοτούμπο", 16);
         System.out.println("AM: " + ioannis.getAm());
         System.out.println("ClassRoom: " + ioannis.getClassRoom());
-        
+
         System.out.println("\n=== Add student ioannis to classroom 'B1' ====");
         classRooms[3].addStudent(ioannis);
         System.out.println(ioannis.getClassRoom());
         System.out.println(ioannis);
-        
+
         System.out.println("\n=== Create student aliki and add to classroom 'B1' ====");
         Student aliki = new Student("Αλίκη", "Βουγιουκλάκη", 17);
         classRooms[3].addStudent(aliki);
@@ -37,6 +37,12 @@ public class School {
         classRooms[3].removeStudent(ioannis.getAm());
         System.out.println(ioannis);
         System.out.println(classRooms[3]);
+
+        System.out.println("\n=== Create a teacher ====");
+        Teacher socrates = new Teacher("ΑΒ123456", "Σωκράτης", "Σωκράτης");
+        socrates.addLesson("Φιλοσοφία");
+        socrates.addLesson("Αρχαία Ελληνικά");
+        System.out.println(socrates);
     }
 
 }
