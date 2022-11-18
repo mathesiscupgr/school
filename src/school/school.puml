@@ -1,0 +1,14 @@
+@startuml
+abstract class school.Person
+class school.ClassRoom
+class school.School
+class school.Student
+class school.Teacher
+class school.validation.Validation
+school.Person ..> school.validation.Validation
+school.ClassRoom ..> school.validation.Validation
+school.Student --|> school.Person
+school.Student ..> school.validation.Validation
+school.Teacher --|> school.Person
+school.Teacher ..> school.validation.Validation
+@enduml

@@ -1,49 +1,79 @@
 package school;
 
 import school.validation.Validation;
-import static school.validation.Validation.isAgeValid;
 
+/**
+ * A student of the school.
+ */
 public class Student extends Person {
-
+    /** Automatic counter to set AM. */
     private static int amCounter = 0;
+    /** Student's registration number (AM).*/
     private final int am;
-    private int age = -1; // 15-18
+    /** Student's age. -1 means age has not been set. */
+    private int age = -1;  // 15-18
+    /** Student's classroom. */
     private ClassRoom classRoom;
 
+    /**
+     * Constructor.
+     * 
+     * @param firstName student's first name
+     * @param lastName student's last name
+     * @param age student's age must be between 15 and 18 years old
+     * @see school.validation.Validation#isAgeValid(int) 
+     */
     public Student(String firstName, String lastName, int age) {
         super(firstName, lastName);
-        this.am = ++amCounter;
-        if (isAgeValid(age)) {
+        am = ++amCounter;
+        if (Validation.isAgeValid(age)) {
             this.age = age;
         }
     }
 
+    /**
+     * Student's AM is calculated automatically.
+     * @return student's AM
+     */
     public int getAm() {
         return am;
     }
-
+    
+    /**
+     * @return student's age 
+     */
     public int getAge() {
         return age;
     }
 
+    /**
+     * Set student's age. It increases every year.
+     * @param age student's age.
+     * @see school.validation.Validation#isAgeValid(int) 
+     */
     public void setAge(int age) {
-        if (isAgeValid(age)) {
-            this.age = age;
-        }
+        this.age = Validation.isAgeValid(age) ? age : -1;
     }
 
+    /**
+     * @return the classroom the student is in.
+     */
     public ClassRoom getClassRoom() {
         return classRoom;
     }
 
-    public void setClassRoom(ClassRoom classRoom) {
+    /**
+     * Set student's classroom.
+     * @param classRoom new classroom for student.
+     */
+    void setClassRoom(ClassRoom classRoom) {
         this.classRoom = classRoom;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + this.am;
+        int hash = 7;
+        hash = 41 * hash + this.am;
         return hash;
     }
 
@@ -61,7 +91,7 @@ public class Student extends Person {
         final Student other = (Student) obj;
         return this.am == other.am;
     }
-
+    
     @Override
     public String toString() {
         return "Student{" + "am=" + am + super.toString() + ", age=" + age + ", classRoom=" + classRoom + '}';
