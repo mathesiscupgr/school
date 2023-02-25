@@ -1,11 +1,12 @@
 package school;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import school.validation.Validation;
 
 /**
@@ -13,22 +14,14 @@ import school.validation.Validation;
  */
 public class ClassRoom {
 
-    /**
-     * Empty classroom name.
-     */
-    private static final String NO_CLASSROOM = "--";
-    /**
-     * Classroom's name.
-     */
+    /** Classroom's name. */
     private final String name;
-    /**
-     * Classroom's size.
-     */
+    /** Classroom's size. */
     private final int size;
-    /**
-     * Classrooms' students.
-     */
+    /** Classrooms' students. */
     private Set<Student> students;
+    /** Logger. */
+    private static final Logger LOG = LogManager.getLogger(ClassRoom.class);
 
     /**
      * Constructor.
@@ -39,11 +32,24 @@ public class ClassRoom {
      * @see school.validation.Validation#isSizeValid(int)
      * @see school.validation.Validation#CLASSROOM_MAX_SIZE
      * @see NO_CLASSROOM
+     * @throws IllegalArgumentException
      */
     public ClassRoom(String name, int size) {
-        this.name = Validation.isClassRoomNameValid(name) ? name : NO_CLASSROOM;
-        this.size = Validation.isSizeValid(size) ? size : Validation.CLASSROOM_MAX_SIZE;
-        this.students = new HashSet<>(size);
+        if (Validation.isClassRoomNameValid(name)) {
+            this.name = name;
+        } else {
+            LOG.error("Μη έγκυρο όνομα τάξης " + name);
+            throw new IllegalArgumentException("Μη έγκυρο όνομα τάξης " + name);
+        }
+        if (Validation.isSizeValid(size)) {
+            this.size = size; 
+        } else {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Invalid size " + size + " was given. Default size " + Validation.CLASSROOM_MAX_SIZE + " was used.");
+            }
+            this.size = Validation.CLASSROOM_MAX_SIZE;
+        }
+        this.students = new HashSet<>(this.size);
     }
 
     /**
@@ -79,6 +85,9 @@ public class ClassRoom {
         if (student != null && students.size() < size) {
             students.add(student);
             student.setClassRoom(this);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Student " + student + " was added to classroom " + this.getName());
+            }
         }
     }
 
@@ -91,6 +100,9 @@ public class ClassRoom {
         Student student = contains(am);
         if (removeStudent(student)) {
             student.setClassRoom(null);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Student with am=" + am + " was removed from classroom " + this.getName());
+            }
         }
     }
 
@@ -106,6 +118,9 @@ public class ClassRoom {
             removed = students.remove(student);
             if (removed) {
                 student.setClassRoom(null);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Student " + student + " was removed from classroom " + this.getName());
+                }
             }
         }
         return removed;
@@ -117,7 +132,10 @@ public class ClassRoom {
     public void removeAllStudents() {
         for (Student student : students) {
             student.setClassRoom(null);
-
+        }
+        students.clear();
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Classroom " + this.getName() + " was emptied.");
         }
     }
 
